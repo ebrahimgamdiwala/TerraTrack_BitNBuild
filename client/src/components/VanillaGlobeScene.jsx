@@ -340,7 +340,7 @@ export default function VanillaGlobeScene() {
       ref={mountRef}
       className="fixed top-0 left-0 w-full h-full"
       style={{ 
-        zIndex: -1,
+        zIndex: -10,
         pointerEvents: 'none'
       }}
     />

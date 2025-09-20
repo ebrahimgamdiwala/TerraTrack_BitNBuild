@@ -9,6 +9,7 @@ const ForgotPasswordPage = lazy(() => import('../pages/ForgotPasswordPage'))
 const DashboardPage = lazy(() => import('../pages/DashboardPage'))
 const ReportsPage = lazy(() => import('../pages/ReportsPage'))
 const AlertsPage = lazy(() => import('../pages/AlertsPage'))
+const TerraBotPage = lazy(() => import('../pages/TerraBotPage'))
 
 // Route configuration
 export const routes = [
@@ -68,6 +69,13 @@ export const routes = [
     isPublic: false,
     showInNav: true,
   },
+  {
+    path: '/terrabot',
+    element: TerraBotPage,
+    name: 'TerraBot',
+    isPublic: false,
+    showInNav: true,
+  },
 ]
 
 // Filter routes by type
@@ -85,6 +93,7 @@ export const ROUTES = {
   DASHBOARD: '/dashboard',
   REPORTS: '/reports',
   ALERTS: '/alerts',
+  TERRABOT: '/terrabot',
 }
 
 export default routes

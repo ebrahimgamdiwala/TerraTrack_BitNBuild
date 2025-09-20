@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import AuthPageWrapper from '../components/AuthPageWrapper'
-import { toast } from '../utils/toast'
+import { toastUtils } from '../utils/toast'
 
 export default function ForgotPasswordPage() {
   const [step, setStep] = useState(1) // 1: Email, 2: OTP, 3: New Password
@@ -24,10 +24,10 @@ export default function ForgotPasswordPage() {
     const result = await forgotPassword(email)
     
     if (result.success) {
-      toast.success('Reset code sent to your email!')
+      toastUtils.success('Reset code sent to your email!')
       setStep(2)
     } else {
-      toast.error(result.error)
+      toastUtils.error(result.error)
     }
     
     setIsLoading(false)
@@ -38,13 +38,13 @@ export default function ForgotPasswordPage() {
     setIsLoading(true)
 
     if (newPassword !== confirmPassword) {
-      toast.error('Passwords do not match')
+      toastUtils.error('Passwords do not match')
       setIsLoading(false)
       return
     }
 
     if (newPassword.length < 6) {
-      toast.error('Password must be at least 6 characters long')
+      toastUtils.error('Password must be at least 6 characters long')
       setIsLoading(false)
       return
     }
@@ -52,10 +52,10 @@ export default function ForgotPasswordPage() {
     const result = await resetPassword(email, otp, newPassword)
     
     if (result.success) {
-      toast.success('Password reset successfully! You can now sign in with your new password.')
+      toastUtils.success('Password reset successfully! You can now sign in with your new password.')
       navigate('/login')
     } else {
-      toast.error(result.error)
+      toastUtils.error(result.error)
     }
     
     setIsLoading(false)
@@ -67,9 +67,9 @@ export default function ForgotPasswordPage() {
     const result = await forgotPassword(email)
     
     if (result.success) {
-      toast.success('New code sent to your email!')
+      toastUtils.success('New code sent to your email!')
     } else {
-      toast.error(result.error)
+      toastUtils.error(result.error)
     }
     
     setIsLoading(false)
