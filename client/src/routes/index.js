@@ -10,6 +10,11 @@ const DashboardPage = lazy(() => import('../pages/DashboardPage'))
 const ReportsPage = lazy(() => import('../pages/ReportsPage'))
 const AlertsPage = lazy(() => import('../pages/AlertsPage'))
 const TerraBotPage = lazy(() => import('../pages/TerraBotPage'))
+const CampaignsPage = lazy(() => import('../pages/CampaignsPage'))
+const CampaignDetailsPage = lazy(() => import('../pages/CampaignDetailsPage'))
+const CreateCampaignPage = lazy(() => import('../pages/CreateCampaignPage'))
+const DonationHistoryPage = lazy(() => import('../pages/DonationHistoryPage'))
+const PaymentSuccessPage = lazy(() => import('../pages/PaymentSuccessPage'))
 
 // Route configuration
 export const routes = [
@@ -56,6 +61,42 @@ export const routes = [
     showInNav: true,
   },
   {
+    path: '/campaigns',
+    element: CampaignsPage,
+    name: 'Campaigns',
+    isPublic: false,
+    showInNav: true,
+  },
+  {
+    path: '/campaigns/create',
+    element: CreateCampaignPage,
+    name: 'Create Campaign',
+    isPublic: false,
+    showInNav: false,
+    adminOnly: true,
+  },
+  {
+    path: '/campaigns/:id',
+    element: CampaignDetailsPage,
+    name: 'Campaign Details',
+    isPublic: false,
+    showInNav: false,
+  },
+  {
+    path: '/payment-success',
+    element: PaymentSuccessPage,
+    name: 'Payment Success',
+    isPublic: false,
+    showInNav: false,
+  },
+  {
+    path: '/my-donations',
+    element: DonationHistoryPage,
+    name: 'My Donations',
+    isPublic: false,
+    showInNav: true,
+  },
+  {
     path: '/alerts',
     element: AlertsPage,
     name: 'Alerts',
@@ -84,6 +125,10 @@ export const ROUTES = {
   VERIFY_EMAIL: '/verify-email',
   FORGOT_PASSWORD: '/forgot-password',
   DASHBOARD: '/dashboard',
+  CAMPAIGNS: '/campaigns',
+  CAMPAIGN_DETAILS: '/campaigns/:id',
+  CREATE_CAMPAIGN: '/campaigns/create',
+  MY_DONATIONS: '/my-donations',
   REPORTS: '/reports',
   ALERTS: '/alerts',
   TERRABOT: '/terrabot',

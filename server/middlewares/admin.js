@@ -5,6 +5,7 @@ export const admin = async (req, res, next) => {
         
         const user = await UserModel.findById(userId);
         if(user && user.role === 'ADMIN') {
+            req.user = user; // Set the user object for the controller
             next();
         } else {
             return res.status(403).json({

@@ -7,6 +7,9 @@ import helmet from 'helmet';
 import connectDB from './config/connectDB.js';
 import userRouter from './routes/user.routes.js';
 import uploadRouter from './routes/upload.routes.js';
+import campaignRouter from './routes/campaign.routes.js';
+import donationRouter from './routes/donation.routes.js';
+import stripeRouter from './routes/stripe.routes.js';
 
 
 dotenv.config();
@@ -35,6 +38,9 @@ app.get("/",(req,res)=>{
 
 app.use("/api/user", userRouter);
 app.use("/api/file", uploadRouter);
+app.use("/api/campaigns", campaignRouter);
+app.use("/api/donations", donationRouter);
+app.use("/api/stripe", stripeRouter);
 
 
 connectDB().then(()=>{

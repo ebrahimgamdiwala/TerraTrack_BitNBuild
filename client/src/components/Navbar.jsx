@@ -73,6 +73,19 @@ export default function Navbar() {
                   {route.name}
                 </Link>
               ))}
+              
+              {/* Admin Only Links */}
+              {user?.role === 'ADMIN' && (
+                <Link 
+                  to="/campaigns/create"
+                  className="text-white/90 hover:text-green-300 font-medium text-sm
+                           transition-all duration-300 hover:scale-105 hover:-translate-y-0.5
+                           hidden sm:block px-3 py-1 border border-green-400/30 rounded-full
+                           bg-green-500/20 hover:bg-green-500/30"
+                >
+                  ✨ Create Campaign
+                </Link>
+              )}
 
               {/* User Welcome & Logout */}
               <span className="text-white/70 text-sm hidden md:inline">

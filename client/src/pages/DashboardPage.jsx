@@ -60,7 +60,7 @@ function DashboardPageComponent() {
   };
 
   useEffect(() => {
-    if (analysisResults && analysisResults.years) {
+    if (analysisResults && analysisResults.years && analysisResults.values && analysisResults.values.length > 0) {
       const ctx = document.getElementById('timelineChart');
       if (chartRef.current) chartRef.current.destroy();
       
@@ -118,7 +118,7 @@ function DashboardPageComponent() {
   }, [analysisResults]);
 
   const renderStats = () => {
-    if (!analysisResults) return null;
+    if (!analysisResults || !analysisResults.values || analysisResults.values.length === 0) return null;
     const { values, startYear, endYear, location, analysisType, metricName } = analysisResults;
     const startValue = values[0];
     const endValue = values[values.length - 1];
