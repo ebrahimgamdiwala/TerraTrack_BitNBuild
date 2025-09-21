@@ -10,6 +10,7 @@ const DashboardPage = lazy(() => import('../pages/DashboardPage'))
 const ReportsPage = lazy(() => import('../pages/ReportsPage'))
 const AlertsPage = lazy(() => import('../pages/AlertsPage'))
 const TerraBotPage = lazy(() => import('../pages/TerraBotPage'))
+const ARPlantsPage = lazy(() => import('../pages/ARPlantsPage'))
 const CampaignsPage = lazy(() => import('../pages/CampaignsPage'))
 const CampaignDetailsPage = lazy(() => import('../pages/CampaignDetailsPage'))
 const CreateCampaignPage = lazy(() => import('../pages/CreateCampaignPage'))
@@ -110,6 +111,13 @@ export const routes = [
     isPublic: false,
     showInNav: true,
   },
+  {
+    path: '/ar-plants',
+    element: ARPlantsPage,
+    name: 'AR Plants',
+    isPublic: false,
+    showInNav: true,
+  },
 ]
 
 // Filter routes by type
@@ -132,6 +140,7 @@ export const ROUTES = {
   REPORTS: '/reports',
   ALERTS: '/alerts',
   TERRABOT: '/terrabot',
+  AR_PLANTS: '/ar-plants',
 }
 
 export default routes
