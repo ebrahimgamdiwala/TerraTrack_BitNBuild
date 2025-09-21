@@ -56,13 +56,6 @@ export const routes = [
     showInNav: true,
   },
   {
-    path: '/reports',
-    element: ReportsPage,
-    name: 'Reports',
-    isPublic: false,
-    showInNav: true,
-  },
-  {
     path: '/alerts',
     element: AlertsPage,
     name: 'Alerts',

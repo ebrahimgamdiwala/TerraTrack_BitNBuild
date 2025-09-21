@@ -236,6 +236,66 @@ Please provide a comprehensive, well-researched response with recent data, prope
         return null
     }
   }
+
+  // Add this new method for location-based environmental alerts
+  // Add this new method for location-based environmental alerts
+// Add this method inside GeminiService class
+async getLocationAlerts(latitude, longitude, envData = {}) {
+    try {
+      const { weatherData, airQualityData } = envData;
+
+      const prompt = `
+You are TerraTrack's environmental alert system. 
+The user is at latitude {lat}, longitude {lon}. 
+Here is the real-time environmental data in JSON format:
+
+{weatherJson}
+
+Please generate **5-7 actionable environmental alerts** for the user. 
+- Each alert must be **based only on this data**.  
+- Alerts should be **short, clear, and actionable**.  
+- Use **high severity** for dangerous conditions, **low** for mild advisories.  
+- Categories: air|water|weather|hazard|heat|storm.  
+- Output JSON format:
+
+[
+  {
+    "message": "Short alert message",
+    "severity": "high|low",
+    "category": "air|weather|water|hazard|heat",
+    "image": "optional relevant image or icon URL"
+  }
+]
+
+      `;
+
+      const contents = [
+        { role: 'user', parts: [{ text: prompt }] }
+      ];
+
+      const response = await this.ai.models.generateContentStream({
+        model: this.model,
+        config: this.config,
+        contents
+      });
+
+      let fullResponse = '';
+      for await (const chunk of response) {
+        if (chunk.text) fullResponse += chunk.text;
+      }
+
+      const alerts = this.extractJSON(fullResponse) || [];
+      return alerts;
+
+    } catch (error) {
+      console.error('Error getting location alerts:', error);
+      return [{
+        message: 'Unable to fetch environmental alerts at this time.',
+        severity: 'high',
+        category: 'system'
+      }];
+    }
+  }
 }
 
 export const geminiService = new GeminiService()

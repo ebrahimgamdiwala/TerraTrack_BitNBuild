@@ -13,10 +13,7 @@ export default function HomePage() {
       <div className="transition-all duration-500 ease-in-out">
         <HeroSection />
         <FeaturesSection />
-        <TestimonialsSection />
         <HowItWorksSection />
-        <StatsSection />
-        <PartnersSection />
         <CTAFooterSection />
       </div>
     </div>

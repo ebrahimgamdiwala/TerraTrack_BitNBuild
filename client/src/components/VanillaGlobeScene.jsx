@@ -32,7 +32,14 @@ export default function VanillaGlobeScene() {
         })
         renderer.setSize(window.innerWidth, window.innerHeight)
         renderer.setPixelRatio(window.devicePixelRatio)
-        mountRef.current.appendChild(renderer.domElement)
+        
+        // Safety check before appendChild
+        if (mountRef.current) {
+            mountRef.current.appendChild(renderer.domElement)
+        } else {
+            console.warn('VanillaGlobeScene: mountRef is null, cannot append canvas')
+            return
+        }
 
         // Create globe with multiple texture layers
         const geometry = new THREE.SphereGeometry(2, 64, 64)

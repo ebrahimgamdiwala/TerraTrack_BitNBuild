@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import 'leaflet/dist/leaflet.css';
+@import 'leaflet-draw/dist/leaflet.draw.css';
 
 /* Hide scrollbar for all browsers */
 ::-webkit-scrollbar {
@@ -77,4 +79,13 @@ body {
 /* Smooth transitions for specific elements only */
 .smooth-transition {
     transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+@layer components {
+  .control-input {
+    @apply bg-white/50 border border-emerald-200 text-emerald-800 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none transition;
+  }
+  .primary-btn {
+    @apply bg-emerald-600 text-white font-semibold rounded-lg px-4 py-2 text-sm hover:bg-emerald-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed;
+  }
 }
