@@ -26,14 +26,13 @@ const DonationHistoryPage = () => {
       console.log('🔍 Fetching user donations...');
       const response = await donationService.getUserDonations();
       console.log('📊 Full API response:', JSON.stringify(response, null, 2));
-      console.log('📊 Response data structure keys:', Object.keys(response.data || {}));
+      console.log('📊 Response structure keys:', Object.keys(response || {}));
       console.log('📊 Response.data:', response.data);
-      console.log('📊 Response.data.data:', response.data?.data);
-      console.log('📊 Response.data.success:', response.data?.success);
+      console.log('📊 Response.success:', response.success);
       
-      // The API structure: response = { data: { success: true, data: [...], pagination: {...} } }
-      // So donations are in response.data.data
-      const donationsData = response.data?.data || [];
+      // The service returns the backend response directly: { success: true, data: [...], pagination: {...} }
+      // So donations are in response.data
+      const donationsData = response.data || [];
       console.log('💰 Donations array:', donationsData);
       console.log('📊 Number of donations found:', donationsData.length);
       setDonations(donationsData);

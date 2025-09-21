@@ -95,11 +95,11 @@ const TerraBotPage = () => {
   return (
     <div className="min-h-screen relative">
       {/* Subtle overlay to ensure readability while showing globe */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/30 via-green-900/20 to-emerald-900/30 pointer-events-none py-10" />
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900/30 via-green-900/20 to-emerald-900/30 pointer-events-none" />
       
       {/* Header */}
-      <div className="relative bg-black/100 backdrop-blur-md border-b border-green-500/20 mt-4">
-        <div className="max-w-6xl mx-auto px-1 py-6">
+      <div className="relative bg-black/100 backdrop-blur-md border-b border-green-500/20">
+        <div className="max-w-8xl mx-auto py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">

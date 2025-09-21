@@ -180,6 +180,10 @@ const getUserDonations = async (req, res) => {
 
     console.log('🔍 Fetching donations for user:', req.userId);
     
+    // First check if any donations exist for this user
+    const allUserDonations = await Donation.find({ userId: req.userId });
+    console.log('📊 Total donations found for user (all statuses):', allUserDonations.length);
+    
     const donations = await Donation.find({ userId: req.userId })
       .populate('campaignId', 'title shortDescription imageUrl status category')
       .sort({ donationDate: -1 })
@@ -187,7 +191,7 @@ const getUserDonations = async (req, res) => {
       .limit(parseInt(limit))
       .select('-metadata -processorTransactionId');
 
-    console.log('📊 Found donations count:', donations.length);
+    console.log('📊 Found donations count after filtering:', donations.length);
     console.log('💰 Donations data:', JSON.stringify(donations, null, 2));
 
     const total = await Donation.countDocuments({ userId: req.userId });
