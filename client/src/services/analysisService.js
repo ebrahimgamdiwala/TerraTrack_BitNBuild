@@ -42,6 +42,23 @@ export async function simulateEEAnalysis(lat, lng, startYear, endYear, analysisT
             trend = 0.02 + 0.03 * Math.random();
             noiseLevel = 0.02;
             break;
+        case 'temperature':
+            // Temperature in Celsius, varies by latitude
+            const tempLatFactor = Math.cos(Math.abs(lat) * Math.PI / 180);
+            baseValue = 10 + 20 * tempLatFactor + (Math.random() - 0.5) * 5;
+            metricName = 'Temperature (°C)';
+            trend = 0.2 + 0.3 * Math.random(); // Global warming trend
+            noiseLevel = 2;
+            break;
+        case 'precipitation':
+            // Precipitation in mm, varies by latitude and longitude
+            const precipLatFactor = Math.exp(-Math.pow((Math.abs(lat) - 10) / 40, 2));
+            const precipLngFactor = Math.sin(Math.abs(lng) * Math.PI / 180);
+            baseValue = 50 + 150 * precipLatFactor + 50 * precipLngFactor + (Math.random() - 0.5) * 20;
+            metricName = 'Precipitation (mm)';
+            trend = -1 + 2 * Math.random(); // Variable precipitation trends
+            noiseLevel = 15;
+            break;
         default:
             baseValue = 0.5;
             metricName = 'Index Value';
@@ -53,8 +70,19 @@ export async function simulateEEAnalysis(lat, lng, startYear, endYear, analysisT
         const year = parseInt(startYear) + i;
         years.push(year.toString());
         let value = baseValue + trend * i + (Math.random() * 2 - 1) * noiseLevel;
-        value = Math.max(-1, Math.min(1, value));
-        values.push(parseFloat(value.toFixed(4)));
+        
+        // Apply appropriate bounds based on analysis type
+        if (analysisType === 'temperature') {
+            value = Math.max(-50, Math.min(50, value)); // Temperature bounds
+            values.push(parseFloat(value.toFixed(2)));
+        } else if (analysisType === 'precipitation') {
+            value = Math.max(0, Math.min(500, value)); // Precipitation bounds (non-negative)
+            values.push(parseFloat(value.toFixed(1)));
+        } else {
+            // Index values (NDVI, NDWI, Urban)
+            value = Math.max(-1, Math.min(1, value));
+            values.push(parseFloat(value.toFixed(4)));
+        }
     }
     
     const locationName = `Point at (${lat.toFixed(4)}°, ${lng.toFixed(4)}°)`;
@@ -142,11 +170,63 @@ export const getAnalysisDescription = (analysisType, values, startYear, endYear)
       'Monitor air and water quality changes associated with urban development.'
     ];
   }
+  else if (analysisType === 'temperature') {
+    // Temperature analysis
+    summary = `Temperature ${change >= 0 ? 'increased' : 'decreased'} by ${Math.abs(change).toFixed(1)}% between ${startYear} and ${endYear}.`;
+    
+    details = [
+      `Land surface temperature changed from ${startValue.toFixed(2)}°C to ${endValue.toFixed(2)}°C.`,
+      change >= 0 ? 'This indicates warming trends in the area.' : 'This suggests cooling trends, possibly due to vegetation growth or seasonal variations.',
+      'Temperature changes can affect local ecosystems, agriculture, and water resources.',
+      'Urban heat island effects may contribute to temperature increases in developed areas.'
+    ];
+    
+    recommendations = [
+      change > 0 ? 'Consider heat mitigation strategies such as increasing green cover.' : 'Monitor for seasonal variations and long-term climate patterns.',
+      'Implement urban planning measures to reduce heat island effects.',
+      'Consider impact on local agriculture and water demand.',
+      'Monitor correlation with vegetation health and water availability.'
+    ];
+  }
+  else if (analysisType === 'precipitation') {
+    // Precipitation analysis
+    summary = `Precipitation ${change >= 0 ? 'increased' : 'decreased'} by ${Math.abs(change).toFixed(1)}% between ${startYear} and ${endYear}.`;
+    
+    details = [
+      `Precipitation levels changed from ${startValue.toFixed(2)}mm to ${endValue.toFixed(2)}mm.`,
+      change >= 0 ? 'This indicates increased rainfall or water availability.' : 'This suggests reduced precipitation, potentially affecting local water resources.',
+      'Precipitation changes directly impact vegetation growth, agriculture, and water resources.',
+      'Long-term precipitation trends are important indicators of climate change.'
+    ];
+    
+    recommendations = [
+      change < 0 ? 'Implement water conservation measures and drought-resistant practices.' : 'Plan for potential flooding and water management needs.',
+      'Monitor impact on local agriculture and food security.',
+      'Consider rainwater harvesting systems for water resource management.',
+      'Assess correlation with vegetation health and ecosystem changes.'
+    ];
+  }
+  else {
+    // Default case for unknown analysis types
+    summary = `Environmental indicator ${change >= 0 ? 'increased' : 'decreased'} by ${Math.abs(change).toFixed(1)}% between ${startYear} and ${endYear}.`;
+    
+    details = [
+      `Environmental metric changed from ${startValue.toFixed(4)} to ${endValue.toFixed(4)}.`,
+      'This change may indicate environmental shifts in the selected area.',
+      'Further analysis may be needed to understand the specific implications.'
+    ];
+    
+    recommendations = [
+      'Monitor additional environmental indicators for comprehensive assessment.',
+      'Consider conducting field surveys to validate satellite observations.',
+      'Analyze seasonal patterns and long-term trends for better insights.'
+    ];
+  }
   
   return {
     summary,
     details,
-    recommendations: change < 5 ? [] : recommendations // Only show recommendations for significant changes
+    recommendations: Math.abs(change) < 2 ? [] : recommendations // Only show recommendations for significant changes (>2%)
   };
 };
 

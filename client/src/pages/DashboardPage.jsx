@@ -125,6 +125,10 @@ function DashboardPageComponent() {
     const change = ((endValue - startValue) / Math.abs(startValue)) * 100;
     const changeType = change >= 0 ? 'increased' : 'decreased';
     const interpretation = getAnalysisDescription(analysisType, values, startYear, endYear);
+    
+    // Debug logging
+    console.log('Analysis Results:', analysisResults);
+    console.log('Interpretation:', interpretation);
 
     return (
       <div className="space-y-6">
@@ -160,20 +164,22 @@ function DashboardPageComponent() {
         </div>
 
         {/* Detailed Interpretation */}
-        <div className="p-4 bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl">
-          <h3 className="text-lg font-semibold text-white mb-2">What This Means</h3>
-          <ul className="space-y-2">
-            {interpretation.details.map((detail, index) => (
-              <li key={index} className="flex items-start">
-                <span className="text-emerald-400 mr-2">•</span>
-                <span className="text-white/80">{detail}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+        {interpretation?.details && interpretation.details.length > 0 && (
+          <div className="p-4 bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl">
+            <h3 className="text-lg font-semibold text-white mb-2">What This Means</h3>
+            <ul className="space-y-2">
+              {interpretation.details.map((detail, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="text-emerald-400 mr-2">•</span>
+                  <span className="text-white/80">{detail}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* Recommendations */}
-        {interpretation.recommendations && (
+        {interpretation?.recommendations && interpretation.recommendations.length > 0 && (
           <div className="p-4 bg-white/10 backdrop-blur-xl rounded-3xl border border-white/20 shadow-2xl">
             <h3 className="text-lg font-semibold text-white mb-2">Recommendations</h3>
             <ul className="space-y-2">
